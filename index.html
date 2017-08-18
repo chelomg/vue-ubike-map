@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>YouBike 臺北市公共自行車即時資訊</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+</head>
+<body>
+
+  <h1>YouBike 臺北市公共自行車即時資訊</h1>
+
+  <div id="app">
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>場站名稱</th>
+          <th>場站區域</th>
+          <th>目前可用車輛</th>
+          <th>總停車格</th>
+          <th>資料更新時間</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="s in ubikeStops">
+          <td>{{ s.sno }}</td>
+          <td>{{ s.sna }}</td>
+          <td>{{ s.sarea }}</td>
+          <td>{{ s.sbi }}</td>
+          <td>{{ s.tot }}</td>
+          <td>{{ s.mday | timeFormat }}</td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="scripts.js"></script>
+
+</body>
+</html>
