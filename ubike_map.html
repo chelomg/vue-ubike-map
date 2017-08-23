@@ -7,8 +7,12 @@
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
- <style>
+  <style>
     body{ padding: 1em;  }
+
+    #map{
+      display: block; width: 90%; height: 600px; border: 1px solid #ccc;
+    }
   </style>
 
 </head>
@@ -19,29 +23,8 @@
   <div id="app">
     <div class="row">
       <div class="col-md-8">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>場站名稱</th>
-              <th>場站區域</th>
-              <th>目前可用車輛</th>
-              <th>總停車格</th>
-              <th>資料更新時間</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="s in ubikeStops">
-              <td>{{ s.sno }}</td>
-              <td>{{ s.sna }}</td>
-              <td>{{ s.sarea }}</td>
-              <td>{{ s.sbi }}</td>
-              <td>{{ s.tot }}</td>
-              <td>{{ s.mday | timeFormat }}</td>
-            </tr>
-          </tbody>
-
-        </table>
+        <div id="map">
+          </div>
       </div>
       <div class="col-md-4">
         <div class="well ">
@@ -59,6 +42,7 @@
 
   </div>
 
+  <script src="//maps.googleapis.com/maps/api/js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="scripts.js"></script>

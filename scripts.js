@@ -1,7 +1,9 @@
 var vm = new Vue({
     el: '#app',
     data: {
-        ubikeStops: []
+        ubikeStops: [],
+        markers: [],
+        map: null
     },
     filters: {
       timeFormat(t){
@@ -29,12 +31,29 @@ var vm = new Vue({
         // snaen：場站名稱(英文)、 aren：地址(英文)、 bemp：空位數量、 act：全站禁用狀態
 
         axios.get('https://tcgbusfs.blob.core.windows.net/blobyoubike/YouBikeTP.gz')
-            .then(res => {
+        .then(res => {
+          console.log(res);
+          // 將 json 轉陣列後存入 this.ubikeStops
+          this.ubikeStops = Object.keys(res.data.retVal).map(key => res.data.retVal[key]);
 
-                // 將 json 轉陣列後存入 this.ubikeStops
-                this.ubikeStops = Object.keys(res.data.retVal).map(key => res.data.retVal[key]);
-
+          // 地圖初始設定
+          const mapElement = document.getElementById("map");
+          const mapOptions = {
+            center: new google.maps.LatLng({ lat: 25.0485678, lng: 121.5173999 }),
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+          this.map = new google.maps.Map(mapElement, mapOptions);
+          this.ubikeStops.forEach((coord) => {
+            const position = new google.maps.LatLng(coord.lat, coord.lng);
+            const marker = new google.maps.Marker({
+              position,
+              map: this.map,
+              title: coord.sna + ' 總停車格: ' + coord.tot + ' / 目前車輛: ' + coord.sbi
             });
+            this.markers.push(marker);
+          });
+        });
 
     }
-});
+})
