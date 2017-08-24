@@ -22,6 +22,7 @@ var vm = new Vue({
       filterStops(){
         this.removeMakers();
         this.initalMakers();
+        this.map.setCenter(new google.maps.LatLng(this.filterStops[0].lat, this.filterStops[0].lng));
       }
     },
     methods: {

@@ -37,6 +37,23 @@
           </div>
           <!-- /.input-group -->
         </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>場站名稱</th>
+              <th>目前可用車輛</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="s in filterStops">
+              <td>{{ s.sno }}</td>
+              <td>{{ s.sna }}</td>
+              <td>{{ s.sbi }}</td>
+            </tr>
+          </tbody>
+
+        </table>
       </div>
     </div>
 
