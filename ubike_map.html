@@ -42,14 +42,14 @@
             <tr>
               <th>#</th>
               <th>場站名稱</th>
-              <th>目前可用車輛</th>
+              <th>可用車輛/</br>總車輛</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="s in filterStops">
+            <tr v-for="s in filterStops" @click.prevent="setCenter(s.lat, s.lng)">
               <td>{{ s.sno }}</td>
               <td>{{ s.sna }}</td>
-              <td>{{ s.sbi }}</td>
+              <td>{{ s.sbi }}/{{ s.tot }}</td>
             </tr>
           </tbody>
 

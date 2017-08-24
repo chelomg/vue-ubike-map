@@ -37,7 +37,7 @@ var vm = new Vue({
 
         axios.get('https://tcgbusfs.blob.core.windows.net/blobyoubike/YouBikeTP.gz')
         .then(res => {
-          // 將 json 轉陣列後存入 this.ubikeStops
+          // 將 json 陣列後存入 this.ubikeStops
           this.ubikeStops = Object.keys(res.data.retVal).map(key => res.data.retVal[key]);
           this.initalMap();
           this.initalMakers();
@@ -94,6 +94,9 @@ var vm = new Vue({
         time.push(t.substr(12, 2));
 
         return date.join("/") + ' ' + time.join(":");
+      },
+      setCenter(lat, lng){
+        this.map.setCenter(new google.maps.LatLng(lat, lng));
       }
     },
     created() {
