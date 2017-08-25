@@ -8,7 +8,8 @@ var vm = new Vue({
         currPage: 1,
         countOfPage: 10,
         cart: [],
-        total: 0
+        total: 0,
+        currentStop: null
     },
     filters: {
     },
@@ -39,6 +40,7 @@ var vm = new Vue({
       setPage(page) {
         if (page <= 0 || page > this.totalPage) { return; }
         this.currPage = page;
+        this.changePage();
       },
       getUbikeData: function(){
         // 欄位說明請參照:
@@ -110,8 +112,19 @@ var vm = new Vue({
         return date.join("/") + ' ' + time.join(":");
       },
       setCenter(lat, lng, key){
+        this.setCurrentStop(key);
         this.map.setZoom(15);
         this.map.setCenter(new google.maps.LatLng(lat, lng));
+      },
+      setCurrentStop(key){
+        if(this.currentStop !== null){
+          document.querySelector(`tbody tr[id="${this.currentStop}"]`).style = null;
+        }
+        document.querySelector(`tbody tr[id="${key}"]`).style.backgroundColor = "#FFA500";
+        this.currentStop = key;
+      },
+      changePage(){
+        document.querySelector(`tbody tr[id="${this.currentStop}"]`).style = null;
       }
     },
     created() {
