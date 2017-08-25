@@ -46,7 +46,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="s in filterStops.slice(pageStart, pageStart + countOfPage)" @click.prevent="setCenter(s.lat, s.lng)">
+            <tr v-for="s, key in filterStops.slice(pageStart, pageStart + countOfPage)" @click.prevent="setCenter(s.lat, s.lng, key)">
               <td>{{ s.sno }}</td>
               <td>{{ s.sna }}</td>
               <td>{{ s.sbi }}/{{ s.tot }}</td>

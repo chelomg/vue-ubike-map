@@ -109,7 +109,8 @@ var vm = new Vue({
 
         return date.join("/") + ' ' + time.join(":");
       },
-      setCenter(lat, lng){
+      setCenter(lat, lng, key){
+        this.map.setZoom(15);
         this.map.setCenter(new google.maps.LatLng(lat, lng));
       }
     },
