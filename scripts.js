@@ -4,7 +4,11 @@ var vm = new Vue({
         ubikeStops: [],
         markers: [],
         map: null,
-        searchName: ''
+        searchName: '',
+        currPage: 1,
+        countOfPage: 10,
+        cart: [],
+        total: 0
     },
     filters: {
     },
@@ -16,6 +20,12 @@ var vm = new Vue({
         }else {
           return this.ubikeStops;
         }
+      },
+      totalPage() {
+        return Math.ceil(this.filterStops.length / this.countOfPage);
+      },
+      pageStart () {
+        return (this.currPage - 1 ) * this.countOfPage;
       }
     },
     watch: {
@@ -26,6 +36,10 @@ var vm = new Vue({
       }
     },
     methods: {
+      setPage(page) {
+        if (page <= 0 || page > this.totalPage) { return; }
+        this.currPage = page;
+      },
       getUbikeData: function(){
         // 欄位說明請參照:
         // http://data.taipei/opendata/datalist/datasetMeta?oid=8ef1626a-892a-4218-8344-f7ac46e1aa48

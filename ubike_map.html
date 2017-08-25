@@ -46,7 +46,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="s in filterStops" @click.prevent="setCenter(s.lat, s.lng)">
+            <tr v-for="s in filterStops.slice(pageStart, pageStart + countOfPage)" @click.prevent="setCenter(s.lat, s.lng)">
               <td>{{ s.sno }}</td>
               <td>{{ s.sna }}</td>
               <td>{{ s.sbi }}/{{ s.tot }}</td>
@@ -54,6 +54,20 @@
           </tbody>
 
         </table>
+
+
+        <hr>
+
+        <!--Pager -->
+        <ul class="pagination">
+          <li class="page-item" :class="{ 'disabled': (currPage === 1)}" @click.prevent = "setPage(currPage-1)">
+            <a class="page-link" href="#">&laquo; Prev</a>
+          </li>
+          <li class="page-item" :class="{'disabled': (currPage === totalPage)}" @click.prevent="setPage(currPage+1)">
+            <a class="page-link" href="#">Next
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
 
