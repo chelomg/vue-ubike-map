@@ -68,6 +68,12 @@ var vm = new Vue({
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         this.map = new google.maps.Map(mapElement, mapOptions);
+
+        //add InfoWindow.isOpen()
+        google.maps.InfoWindow.prototype.isOpen = function() {
+          var map = this.getMap();
+          return (map != null && map != "undefined");
+        };
       },
       initalMakers: function(){
         this.filterStops.forEach((coord) => {
