@@ -124,10 +124,11 @@ var vm = new Vue({
 
         return date.join("/") + ' ' + time.join(":");
       },
-      setCenter(lat, lng, key){
+      setCenter(sno, lat, lng, key){
         this.setCurrentStop(key);
         this.map.setZoom(15);
         this.map.setCenter(new google.maps.LatLng(lat, lng));
+        this.openCurrentInfo(sno);
       },
       setCurrentStop(key){
         if(this.currentStop !== null){
@@ -135,6 +136,11 @@ var vm = new Vue({
         }
         document.querySelector(`tbody tr[id="${key}"]`).style.backgroundColor = "#FFA500";
         this.currentStop = key;
+      },
+      openCurrentInfo(sno){
+        var marker = this.markers.filter( d => { return d.sno === sno })[0];
+        this.closeAllInfoWindow();
+        marker.info.open( marker.map, marker );
       },
       changePage(){
         document.querySelector(`tbody tr[id="${this.currentStop}"]`).style = null;
