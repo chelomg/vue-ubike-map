@@ -90,7 +90,7 @@ var vm = new Vue({
                     總數量: ${coord.tot} </br>
                     目前車輛數量: ${coord.sbi}</br>
                     更新時間: ${this.timeFormat(coord.mday)}</br>`,
-            });
+            })
           });
           //google.maps.event.addListener(marker, 'mouseover', () => info.open(marker.get('map'), marker));
           //google.maps.event.addListener(marker, 'mouseout', () => info.close());
