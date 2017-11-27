@@ -68,6 +68,12 @@ var vm = new Vue({
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         this.map = new google.maps.Map(mapElement, mapOptions);
+
+        //add InfoWindow.isOpen()
+        google.maps.InfoWindow.prototype.isOpen = function() {
+          var map = this.getMap();
+          return (map != null && map != "undefined");
+        };
       },
       initalMakers: function(){
         this.filterStops.forEach((coord) => {
@@ -75,18 +81,25 @@ var vm = new Vue({
           const marker = new google.maps.Marker({
             position,
             map: this.map,
-            title: coord.sna + ' 總停車格: ' + coord.tot + ' / 目前車輛: ' + coord.sbi
+            sno: coord.sno,
+            title: coord.sna + ' 總停車格: ' + coord.tot + ' / 目前車輛: ' + coord.sbi,
+            info: new google.maps.InfoWindow({
+                    content:`
+                    站場名稱: ${coord.sna}</br>
+                    區域地址: ${coord.sarea} - ${coord.ar} </br>
+                    總數量: ${coord.tot} </br>
+                    目前車輛數量: ${coord.sbi}</br>
+                    更新時間: ${this.timeFormat(coord.mday)}</br>`,
+            })
           });
-          const info = new google.maps.InfoWindow({
-            content:`
-              站場名稱: ${coord.sna}</br>
-              區域地址: ${coord.sarea} - ${coord.ar} </br>
-              總數量: ${coord.tot} </br>
-              目前車輛數量: ${coord.sbi}</br>
-              更新時間: ${this.timeFormat(coord.mday)}</br>`,
+          //google.maps.event.addListener(marker, 'mouseover', () => info.open(marker.get('map'), marker));
+          //google.maps.event.addListener(marker, 'mouseout', () => info.close());
+          var self = this;
+
+          google.maps.event.addListener(marker, 'click', function() {
+            self.closeAllInfoWindow();
+            this.info.open( this.map, this);
           });
-          google.maps.event.addListener(marker, 'mouseover', () => info.open(marker.get('map'), marker));
-          google.maps.event.addListener(marker, 'mouseout', () => info.close());
           this.markers.push(marker);
         });
       },
@@ -111,10 +124,11 @@ var vm = new Vue({
 
         return date.join("/") + ' ' + time.join(":");
       },
-      setCenter(lat, lng, key){
+      setCenter(sno, lat, lng, key){
         this.setCurrentStop(key);
         this.map.setZoom(15);
         this.map.setCenter(new google.maps.LatLng(lat, lng));
+        this.openCurrentInfo(sno);
       },
       setCurrentStop(key){
         if(this.currentStop !== null){
@@ -123,8 +137,17 @@ var vm = new Vue({
         document.querySelector(`tbody tr[id="${key}"]`).style.backgroundColor = "#FFA500";
         this.currentStop = key;
       },
+      openCurrentInfo(sno){
+        var marker = this.markers.filter( d => { return d.sno === sno })[0];
+        this.closeAllInfoWindow();
+        marker.info.open( marker.map, marker );
+      },
       changePage(){
         document.querySelector(`tbody tr[id="${this.currentStop}"]`).style = null;
+      },
+      closeAllInfoWindow(){
+        //close all InfoWindow
+        this.markers.map( m => { if(m.info.isOpen()) m.info.close(); });
       }
     },
     created() {
