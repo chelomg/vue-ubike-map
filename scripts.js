@@ -81,15 +81,16 @@ var vm = new Vue({
           const marker = new google.maps.Marker({
             position,
             map: this.map,
-            title: coord.sna + ' 總停車格: ' + coord.tot + ' / 目前車輛: ' + coord.sbi
-          });
-          const info = new google.maps.InfoWindow({
-            content:`
-              站場名稱: ${coord.sna}</br>
-              區域地址: ${coord.sarea} - ${coord.ar} </br>
-              總數量: ${coord.tot} </br>
-              目前車輛數量: ${coord.sbi}</br>
-              更新時間: ${this.timeFormat(coord.mday)}</br>`,
+            sno: coord.sno,
+            title: coord.sna + ' 總停車格: ' + coord.tot + ' / 目前車輛: ' + coord.sbi,
+            info: new google.maps.InfoWindow({
+                    content:`
+                    站場名稱: ${coord.sna}</br>
+                    區域地址: ${coord.sarea} - ${coord.ar} </br>
+                    總數量: ${coord.tot} </br>
+                    目前車輛數量: ${coord.sbi}</br>
+                    更新時間: ${this.timeFormat(coord.mday)}</br>`,
+            });
           });
           //google.maps.event.addListener(marker, 'mouseover', () => info.open(marker.get('map'), marker));
           //google.maps.event.addListener(marker, 'mouseout', () => info.close());
@@ -137,6 +138,10 @@ var vm = new Vue({
       },
       changePage(){
         document.querySelector(`tbody tr[id="${this.currentStop}"]`).style = null;
+      },
+      closeAllInfoWindow(){
+        //close all InfoWindow
+        this.markers.map( m => { if(m.info.isOpen()) m.info.close(); });
       }
     },
     created() {
