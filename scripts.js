@@ -91,8 +91,14 @@ var vm = new Vue({
               目前車輛數量: ${coord.sbi}</br>
               更新時間: ${this.timeFormat(coord.mday)}</br>`,
           });
-          google.maps.event.addListener(marker, 'mouseover', () => info.open(marker.get('map'), marker));
-          google.maps.event.addListener(marker, 'mouseout', () => info.close());
+          //google.maps.event.addListener(marker, 'mouseover', () => info.open(marker.get('map'), marker));
+          //google.maps.event.addListener(marker, 'mouseout', () => info.close());
+          var self = this;
+
+          google.maps.event.addListener(marker, 'click', function() {
+            self.closeAllInfoWindow();
+            this.info.open( this.map, this);
+          });
           this.markers.push(marker);
         });
       },
