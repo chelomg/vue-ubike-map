@@ -17,7 +17,8 @@ var vm = new Vue({
       filterStops() {
         var searchName = this.searchName;
         if (this.searchName.trim() !== '') {
-          return this.ubikeStops.filter(function(d) { return d.sna.toUpperCase().indexOf(searchName.toUpperCase()) > -1; });
+          ubikeStops = this.ubikeStops.filter(function(d) { return d.sna.toUpperCase().indexOf(searchName.toUpperCase()) > -1; });
+          return ubikeStops;
         }else {
           return this.ubikeStops;
         }
@@ -33,7 +34,10 @@ var vm = new Vue({
       filterStops(){
         this.removeMakers();
         this.initalMakers();
-        this.map.setCenter(new google.maps.LatLng(this.filterStops[0].lat, this.filterStops[0].lng));
+        if (this.searchName.trim() !== '') {
+          const firstStop = this.filterStops[0];
+          this.setCenter(firstStop.sno, firstStop.lat, firstStop.lng, 0);
+        }
       }
     },
     methods: {
